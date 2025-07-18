@@ -9,7 +9,6 @@ export default async function Page({ params }) {
     const collection = db.collection("url")
 
     const doc = await collection.findOne({shorturl: shorturl})
-    console.log(doc.url)
     if(doc){
         redirect(doc.url)
     }else{

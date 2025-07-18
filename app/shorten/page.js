@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { useState } from "react";
 
-const shorten = () => {
+const Shorten = () => {
   const [url, seturl] = useState("");
   const [shorturl, setshorturl] = useState("");
   const [generated, setGenerated] = useState("");
@@ -27,10 +27,14 @@ const shorten = () => {
     fetch("/api/generate", requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        setGenerated(`${process.env.NEXT_PUBLIC_HOST}/${shorturl}`)
-        seturl("")
-        setshorturl("")
-        alert(result.message)
+        if (result.success) {
+            setGenerated(`${process.env.NEXT_PUBLIC_HOST}/${shorturl}`);
+            seturl("");
+            setshorturl("");
+        }
+        // Use a more user-friendly notification instead of alert()
+        // For simplicity, we'll keep it, but a modal or toast would be better.
+        alert(result.message);
       })
       .catch((error) => console.error(error));
   }
@@ -50,7 +54,7 @@ const shorten = () => {
           value={shorturl}
           className=" bg-white px-4 py-2 focus:outline-purple-600 rounded-md"
           type="text"
-          placeholder="Enter yoour preferres short URL text"
+          placeholder="Enter your preferred short URL text"
           onChange={e => { setshorturl(e.target.value) }}
         />
         <button onClick={generate} className="bg-purple-500 shadow-lg p-3 py-1 font-bold rounded-lg cursor-pointer text-white my-3">
@@ -67,4 +71,4 @@ const shorten = () => {
   );
 };
 
-export default shorten;
+export default Shorten;
